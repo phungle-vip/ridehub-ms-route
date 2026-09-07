@@ -40,7 +40,8 @@ public class DistanceCalculationService {
     private WebClient createWebClient() {
         String apiKey = applicationProperties.getGraphHopper().getApiKey();
         if (apiKey == null || apiKey.trim().isEmpty()) {
-            throw new IllegalStateException("GraphHopper API key is not configured");
+            LOG.warn("GraphHopper API key is not configured. Distance calculation via GraphHopper will be disabled.");
+            return null;
         }
 
         WebClient.Builder builder = WebClient.builder()

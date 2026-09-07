@@ -88,8 +88,9 @@
             <url>https://packages.confluent.io/maven/</url>
         </repository>
         <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/maian3333/ridehub-central-common</url>
+            <id>ridehub-releases</id>
+            <name>RideHub Reposilite Releases</name>
+            <url>https://repo.phungvip.io.vn/releases</url>
         </repository>
     </repositories>
     <dependencyManagement>
@@ -104,15 +105,10 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!-- <dependency>
-            <groupId>com.ridehub.clients</groupId>
-            <artifactId>client-open-feign-avro</artifactId>
-            <version>0.1.0</version>
-        </dependency> -->
         <dependency>
             <groupId>com.ridehub.clients</groupId>
             <artifactId>client-open-feign-avro</artifactId>
-            <version>4.0.1</version>
+            <version>1.0.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
         <dependency>
@@ -135,11 +131,6 @@
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
             <version>1.12.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.55</version>
         </dependency>
         <!-- <dependency>
             <groupId>com.hazelcast</groupId>

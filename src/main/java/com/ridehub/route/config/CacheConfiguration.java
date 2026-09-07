@@ -22,17 +22,11 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.*;
 
-import com.ridehub.common.config.ConsulSSHTunnel;
-import com.ridehub.common.config.ConsulSSHTunnelAutoConfiguration;
-
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.config.cache.PrefixedKeyGenerator;
 
 @Configuration
 @EnableCaching
-@AutoConfigureAfter(ConsulSSHTunnelAutoConfiguration.class)
-@ConditionalOnBean(ConsulSSHTunnel.class) // Only create if tunnel bean exists
-@DependsOn("consulSSHTunnel") // Explicitly depend on the tunnel bean
 public class CacheConfiguration {
 
     private GitProperties gitProperties;

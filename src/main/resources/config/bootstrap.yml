@@ -40,6 +40,9 @@ spring:
         format: YAML
         acl-token: ${F4_PASSWORD}
         profile-separator: "-"
+        watch:
+          enabled: true
+          delay: 2000
       # Consul Discovery (service registration/discovery)
       discovery:
         enabled: true

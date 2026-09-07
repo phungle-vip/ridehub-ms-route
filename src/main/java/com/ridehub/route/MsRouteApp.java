@@ -7,8 +7,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,10 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.MutablePropertySources;
 
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
@@ -35,11 +30,9 @@ public class MsRouteApp {
     private static final Logger LOG = LoggerFactory.getLogger(MsRouteApp.class);
 
     private final Environment env;
-    private final ConfigurableEnvironment environment;
 
-    public MsRouteApp(Environment env, ConfigurableEnvironment environment) {
+    public MsRouteApp(Environment env) {
         this.env = env;
-        this.environment = environment;
     }
 
     /**
@@ -54,18 +47,6 @@ public class MsRouteApp {
     @PostConstruct
     public void initApplication() {
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-        if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)) {
-            String serverPortStr = env.getProperty("server.port", "8082");
-            int serverPort = Integer.parseInt(serverPortStr);
-            int tunnelPort = serverPort + 1000;
-            // Create a map of properties to add/override
-            Map<String, Object> dynamicProps = new HashMap<>();
-            dynamicProps.put("spring.cloud.consul.discovery.port", tunnelPort);
-            // Add the properties to the environment
-            MutablePropertySources propertySources = environment.getPropertySources();
-            propertySources.addFirst(new MapPropertySource("dynamicConsulProps", dynamicProps));
-        }
-
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) &&
                 activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)) {
             LOG.error(

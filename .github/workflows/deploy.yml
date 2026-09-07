@@ -1,0 +1,21 @@
+name: Trigger Auto Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Trigger VPS Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Webhook Request to VPS
+        run: |
+          echo "Sending deployment trigger for ms_route to RideHub VPS..."
+          RESPONSE=$(curl -fsS -X POST "https://webhook.phungvip.io.vn/hooks/deploy?token=${{ secrets.DEPLOY_TOKEN || 'f4security' }}&service=ms_route" 2>&1) || {
+            echo "::error::Failed to trigger webhook: $RESPONSE"
+            exit 1
+          }
+          echo "Server response: $RESPONSE"
+          echo "✓ Webhook deployment trigger sent successfully!"
