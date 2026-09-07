@@ -110,13 +110,17 @@ public final class SecurityUtils {
 
     @SuppressWarnings("unchecked")
     private static Collection<String> getRolesFromClaims(Map<String, Object> claims) {
-        return (Collection<String>) claims.getOrDefault(
-            "groups",
-            claims.getOrDefault("roles", claims.getOrDefault(CLAIMS_NAMESPACE + "roles", new ArrayList<>()))
-        );
+        List<String> roles = new ArrayList<>();
+        for (String claimName : List.of("groups", "roles", CLAIMS_NAMESPACE + "roles")) {
+            Object claim = claims.get(claimName);
+            if (claim instanceof Collection<?> claimValues) {
+                claimValues.stream().filter(String.class::isInstance).map(String.class::cast).forEach(roles::add);
+            }
+        }
+        return roles;
     }
 
     private static List<GrantedAuthority> mapRolesToGrantedAuthorities(Collection<String> roles) {
-        return roles.stream().filter(role -> role.startsWith("ROLE_")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        return roles.stream().filter(role -> role.startsWith("ROLE_")).distinct().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 }
