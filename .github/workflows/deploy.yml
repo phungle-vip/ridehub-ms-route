@@ -11,9 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Webhook Request to VPS
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         run: |
+          if [ -z "$DEPLOY_TOKEN" ]; then
+            echo "::error::GitHub Secret DEPLOY_TOKEN is not configured! Please set DEPLOY_TOKEN in Repository Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
           echo "Sending deployment trigger for ms_route to RideHub VPS..."
-          RESPONSE=$(curl -fsS -X POST "https://webhook.phungvip.io.vn/hooks/deploy?token=${{ secrets.DEPLOY_TOKEN || 'f4security' }}&service=ms_route" 2>&1) || {
+          RESPONSE=$(curl -fsS -X POST "https://webhook.phungvip.io.vn/hooks/deploy?service=ms_route" \
+            -H "X-Admin-Token: $DEPLOY_TOKEN" 2>&1) || {
             echo "::error::Failed to trigger webhook: $RESPONSE"
             exit 1
           }

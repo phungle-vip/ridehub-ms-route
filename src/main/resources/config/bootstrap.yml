@@ -14,7 +14,7 @@ spring:
   cloud:
     vault:
       uri: https://vault.${DOMAIN}
-      token: ${F4_PASSWORD}
+      token: ${VAULT_TOKEN:${F4_PASSWORD}}
       scheme: https
       kv:
         enabled: true
@@ -38,7 +38,7 @@ spring:
       config:
         enabled: true
         format: YAML
-        acl-token: ${F4_PASSWORD}
+        acl-token: ${CONSUL_TOKEN:${F4_PASSWORD}}
         profile-separator: "-"
         watch:
           enabled: true
@@ -51,20 +51,19 @@ spring:
         health-check-path: /management/health
         health-check-interval: 10s
 
-        acl-token: ${F4_PASSWORD}
+        acl-token: ${CONSUL_TOKEN:${F4_PASSWORD}}
 
 
   config:
-    import: vault://secret/infrastructure,vault://secret/common-kafka
+    import: optional:file:.env[.properties],vault://secret/infrastructure,vault://secret/common-kafka
   docker:
     compose:
       enabled: false
       lifecycle-management: start-only
       file: src/main/docker/mysql.yml
 
-# Disable Consul health indicator to prevent ACL token errors
-# The health indicator checks Consul's status API which requires special ACL permissions
+# Consul health indicator enabled safely with proper agent:read ACL permissions
 management:
   health:
     consul:
-      enabled: false
+      enabled: ${CONSUL_HEALTH_ENABLED:true}

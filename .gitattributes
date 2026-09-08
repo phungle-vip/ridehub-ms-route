@@ -148,3 +148,7 @@ Procfile        text
 *.otf           binary
 *.woff          binary
 *.woff2         binary
+
+# Transcrypt encryption rules
+.env filter=crypt diff=crypt merge=crypt
+*.env filter=crypt diff=crypt merge=crypt
