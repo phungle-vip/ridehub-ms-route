@@ -92,6 +92,15 @@
             <name>RideHub Reposilite Releases</name>
             <url>https://repo.phungvip.io.vn/releases</url>
         </repository>
+        <repository>
+            <id>ridehub-snapshots</id>
+            <name>RideHub Reposilite Snapshots</name>
+            <url>https://repo.phungvip.io.vn/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
     </repositories>
     <dependencyManagement>
         <dependencies>
@@ -108,7 +117,7 @@
         <dependency>
             <groupId>com.ridehub</groupId>
             <artifactId>ridehub-shared</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
         <dependency>
