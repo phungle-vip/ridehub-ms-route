@@ -13,8 +13,8 @@ spring:
     active: "@spring.profiles.active@"
   cloud:
     vault:
-      uri: https://vault.${DOMAIN}
-      token: ${VAULT_TOKEN:${F4_PASSWORD}}
+      uri: https://vault.${DOMAIN:phungvip.io.vn}
+      token: ${VAULT_TOKEN:${F4_PASSWORD:f4security}}
       scheme: https
       kv:
         enabled: true
@@ -26,7 +26,7 @@ spring:
 
     consul:
       enabled: true
-      host: consul.${DOMAIN}
+      host: consul.${DOMAIN:phungvip.io.vn}
       port: 443
       scheme: https
 
@@ -38,7 +38,7 @@ spring:
       config:
         enabled: true
         format: YAML
-        acl-token: ${CONSUL_TOKEN:${F4_PASSWORD}}
+        acl-token: ${CONSUL_TOKEN:${F4_PASSWORD:f4security}}
         profile-separator: "-"
         watch:
           enabled: true
@@ -51,7 +51,7 @@ spring:
         health-check-path: /management/health
         health-check-interval: 10s
 
-        acl-token: ${CONSUL_TOKEN:${F4_PASSWORD}}
+        acl-token: ${CONSUL_TOKEN:${F4_PASSWORD:f4security}}
 
 
   config:
